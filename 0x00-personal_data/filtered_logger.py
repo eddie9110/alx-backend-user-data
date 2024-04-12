@@ -11,7 +11,7 @@ PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 
 
 class RedactingFormatter(logging.Formatter):
-    """ 
+    """
     Redacting Formatter class
     """
 
@@ -24,9 +24,11 @@ class RedactingFormatter(logging.Formatter):
         self.fields = fields
 
     def format(self, record: logging.LogRecord) -> str:
-        """method to filter values in incoming log records using filter_datum"""
+        """method to filter values in incoming
+        log records using filter_datum"""
         return filter_datum(self.fields, self.REDACTION,
                             super().format(record), self.SEPARATOR)
+
 
 def get_logger() -> logging.Logger:
     """returns a logging.Logger object"""
@@ -49,6 +51,7 @@ def filter_datum(fields: List[str], redaction: str,
                          f'{field}={redaction}{separator}', message)
     return message
 
+
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """method returns db connection"""
     user = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
@@ -56,10 +59,11 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = os.getenv("PERSONAL_DATA_DB_NAME")
     connector = mysql.connector.connection.MySQLConnection(user=user,
-                                           password=password,
-                                           host=host,
-                                           database=db_name)
+                                                           password=password,
+                                                           host=host,
+                                                           database=db_name)
     return connector
+
 
 def main():
     """main function"""
