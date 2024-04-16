@@ -29,7 +29,7 @@ def request_filter():
     request filter
     """
     path_list = ['/api/v1/status/', '/api/v1/unauthorized/',
-                      '/api/v1/forbidden/']
+                 '/api/v1/forbidden/']
 
     if auth is None:
         pass
@@ -62,7 +62,6 @@ def not_found(error) -> str:
     """ Not found handler
     """
     return jsonify({"error": "Not found"}), 404
-
 
 
 if __name__ == "__main__":
