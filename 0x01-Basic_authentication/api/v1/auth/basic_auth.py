@@ -60,7 +60,7 @@ class BasicAuth(Auth):
         if user_pwd and user_pwd:
             users = User.search({"email": user_email})
             for user in users:
-                if user.password == user_pwd:
+                if user and user.is_valid_password(user_pwd):
                     return user
 
     def current_user(self, request=None) -> TypeVar('User'):
