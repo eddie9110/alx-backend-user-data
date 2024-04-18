@@ -25,13 +25,14 @@ class BasicAuth(Auth):
             return "".join(authorization_header.split(" ")[1:])
         else:
             return None
-    
+
     def decode_base64_authorization_header(
             self, base64_authorization_header: str) -> str:
         """decodes base64 authorization header"""
-        if base64_authorization_header and type(base64_authorization_header) == str:
+        base_header = base64_authorization_header
+        if base_header and type(base_header) == str:
             try:
-                base = base64.b64decode(base64_authorization_header.encode('utf-8'))
+                base = base64.b64decode(base_header.encode('utf-8'))
                 return base.decode('utf-8')
             except Exception:
                 return None
@@ -45,11 +46,11 @@ class BasicAuth(Auth):
             return (None, None)
         if ':' not in decoded_base64_authorization_header:
             return (None, None)
-    
+
         users_email = decoded_base64_authorization_header.split(':')[0]
         users_password = "".join(c.split(':', 1)[1:])
         return(users_email, users_password)
-    
+
     def user_object_from_credentials(
             self, user_email: str, user_pwd: str) -> TypeVar('User'):
         """user object from credentials"""
@@ -67,8 +68,8 @@ class BasicAuth(Auth):
         """method overloads Auth and retrieves the
         User instance for a request"""
         if request:
-            auth_header = self.authorization_header(request)
-            extract_base64 = self.extract_base64_authorization_header(auth_header)
-            decode_base64 = self.decode_base64_authorization_header(extract_base64)
-            users_email, users_password = self.extract_user_credentials(decode_base64)
-            return self.user_object_from_credentials(users_email, users_password)
+            auth_h = self.authorization_header(request)
+            extract_h = self.extract_base64_authorization_header(auth_h)
+            decode_h = self.decode_base64_authorization_header(extract_h)
+            email, password = self.extract_user_credentials(decode_h)
+            return self.user_object_from_credentials(email, password)

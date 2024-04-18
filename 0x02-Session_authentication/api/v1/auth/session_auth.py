@@ -34,11 +34,11 @@ class SessionAuth(Auth):
         """method destroys a user's session"""
         if request is None:
             return False
-        
+
         session_cookie_ = self.session_cookie(request)
         if not session_cookie_:
             return False
-        
+
         user_id = self.user_id_for_session_id(session_cookie_)
         if not user_id:
             return False
