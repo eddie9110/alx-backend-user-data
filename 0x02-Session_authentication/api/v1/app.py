@@ -39,8 +39,8 @@ def request_filter():
         return
     if not auth.require_auth(request.path, path_list):
         return
-    if auth.authorization_header(request)is None and
-            auth.session_cookie(request) is None:
+    if (auth.authorization_header(request)is None and
+            auth.session_cookie(request) is None):
         return abort(401)
     if auth.current_user(request) is None:
         return abort(403)
